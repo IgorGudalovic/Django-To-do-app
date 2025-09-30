@@ -34,6 +34,12 @@
                             </li>
                             {% for todo in todo_list %}
                             <li class="list-group-item">{{todo.title}}</li>
+                            <form action="{%url 'delete_todo_item' todo.id %}" method="post" class="float-right.d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt fa-lg float-right">Delete</i></button>
+                            </form>
+                            {% empty %}
+                            <li class="list-group-item">No tasks yet</li>
                             {% endfor %}
                     </div>
                 </div>

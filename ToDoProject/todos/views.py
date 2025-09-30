@@ -11,3 +11,8 @@ def insert_todo_item(request:HttpRequest):
     todo = ToDo(title = request.POST["content"])
     todo.save()
     return redirect('/todos/list/')
+
+def delete_todo_item(request, todo_id):
+    todo = ToDo.objects.get(id=todo_id)
+    todo.delete()
+    return redirect('/todos/list/')
