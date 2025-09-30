@@ -1,0 +1,258 @@
+/* todo_styles.css */
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --header-gradient: linear-gradient(to right, #3494e6, #ec6ead);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --input-border: #e9ecef;
+  --input-focus: #3494e6;
+  --text-muted: #6c757d;
+  --delete-color: #dc3545;
+  --progress-bg: #e9ecef;
+}
+
+body {
+  background: var(--primary-gradient);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-attachment: fixed;
+}
+
+.todo-card {
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  border: none;
+  background: var(--card-bg);
+  transition: transform 0.3s ease;
+}
+
+.todo-card:hover {
+  transform: translateY(-5px);
+}
+
+.todo-header {
+  background: var(--header-gradient);
+  color: white;
+  padding: 1.5rem;
+  border-bottom: none;
+}
+
+.todo-body {
+  padding: 0;
+}
+
+.todo-input-container {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid var(--input-border);
+}
+
+.todo-input {
+  border-radius: 50px;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--input-border);
+  transition: all 0.3s;
+}
+
+.todo-input:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 0.25rem rgba(52, 148, 230, 0.25);
+}
+
+.add-btn {
+  border-radius: 50px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  background: var(--header-gradient);
+  border: none;
+  transition: all 0.3s;
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.todo-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.empty-state {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #dee2e6;
+}
+
+/* Custom scrollbar for todo list */
+.todo-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.todo-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.todo-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.todo-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .todo-header {
+    padding: 1rem;
+  }
+  
+  .todo-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .todo-input-container {
+    padding: 1rem;
+  }
+  
+  .add-btn span {
+    display: none;
+  }
+  
+  .add-btn i {
+    margin: 0 !important;
+  }
+}
+
+/* Table Styles */
+.todo-table {
+  margin-bottom: 0;
+  border: none;
+}
+
+.todo-table thead th {
+  border-bottom: 2px solid #e9ecef;
+  border-top: none;
+  font-weight: 600;
+  color: #495057;
+  padding: 1rem 0.75rem;
+  background-color: #f8f9fa;
+}
+
+.todo-table tbody td {
+  border-top: 1px solid #e9ecef;
+  padding: 1rem 0.75rem;
+  vertical-align: middle;
+}
+
+.todo-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.todo-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Task column */
+.task-header {
+  padding-left: 1.5rem !important;
+}
+
+.task-cell {
+  padding-left: 1.5rem !important;
+}
+
+.todo-text {
+  font-size: 1rem;
+  color: #333;
+  margin: 0;
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* Done and Action columns */
+.done-header,
+.action-header {
+  font-weight: 600;
+}
+
+.done-cell,
+.action-cell {
+  padding: 0.5rem !important;
+}
+
+/* Form buttons in table */
+.todo-table form {
+  margin: 0;
+  display: inline-block;
+}
+
+.todo-table .toggle-btn,
+.todo-table .delete-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo-table .toggle-btn {
+  color: var(--text-muted);
+  font-size: 1.25rem;
+}
+
+.todo-table .toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: scale(1.1);
+}
+
+.todo-table .delete-btn {
+  color: var(--delete-color);
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+.todo-table .delete-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Responsive table */
+@media (max-width: 576px) {
+  .todo-table {
+    font-size: 0.9rem;
+  }
+  
+  .task-header {
+    padding-left: 1rem !important;
+  }
+  
+  .task-cell {
+    padding-left: 1rem !important;
+  }
+  
+  .todo-table thead th,
+  .todo-table tbody td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .done-header,
+  .action-header {
+    font-size: 0.8rem;
+  }
+}

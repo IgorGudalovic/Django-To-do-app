@@ -3,52 +3,91 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Todo List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'todos/css/styles.css' %}">
   </head>
 
-  <body class="bg-dark text-white">
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col-md-8 offset-md-2 text-center">
-                <div class="card">
-                    <div class="card-header shadow-sm bg white">
-                        <h1 class="display-5 text-info"><i class="fas fa-check-double"></i>Todos</h1>
+  <body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="todo-card">
+                    <div class="todo-header text-center">
+                        <h1 class="display-5 fw-bold mb-0"><i class="fas fa-tasks me-2"></i>My Todo List</h1>
+                        <p class="mb-0 mt-2">Stay organized and productive</p>
                     </div>
-                    <div class="card-body">
-                        
-                        <ul class="list-group"></ul>
-                            <li class="list-group-item">
-                                <form action="{%url 'insert_todo_item' %}" method="post" autocomplete="off">
-                                    {% csrf_token %}
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="content">
-                                        <div class="input-group-append text-info">
-                                            <span class="input-group-text">
-                                                <button type="submit" class="btn btn-info">Add task</button>
-                                            </span>                                    
-                                        </div>
-                                    </div>                            
-                                </form>
-                            </li>
-                            {% for todo in todo_list %}
-                            <li class="list-group-item">{{todo.title}}</li>
-                            <form action="{%url 'delete_todo_item' todo.id %}" method="post" class="float-right.d-inline">
+                    <div class="todo-body">
+                        <div class="todo-input-container">
+                            <form action="{% url 'insert_todo_item' %}" method="post" autocomplete="off">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt fa-lg float-right">Delete</i></button>
+                                <div class="input-group">
+                                    <input type="text" class="form-control todo-input" name="content" placeholder="What needs to be done?">
+                                    <button type="submit" class="btn btn-primary add-btn ms-2">
+                                        <i class="fas fa-plus me-1"></i> Add Task
+                                    </button>
+                                </div>                            
                             </form>
-                            {% empty %}
-                            <li class="list-group-item">No tasks yet</li>
-                            {% endfor %}
+                        </div>
+                        
+                        <div class="todo-list">
+                            {% if todo_list %}
+                            <div class="table-responsive">
+                                <table class="table todo-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="task-header">Task</th>
+                                            <th class="done-header text-center" style="width: 100px;">Done</th>
+                                            <th class="action-header text-center" style="width: 80px;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for todo in todo_list %}
+                                        <tr class="todo-item {% if todo.completed %}completed{% endif %}">
+                                            <td class="task-cell">
+                                                <p class="todo-text mb-0">{{ todo.title }}</p>
+                                            </td>
+                                            <td class="done-cell text-center">
+                                                <form action="{% url 'toggle_todo_item' todo.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="toggle-btn">
+                                                        {% if todo.completed %}
+                                                        <i class="fas fa-check-circle text-success fs-5"></i>
+                                                        {% else %}
+                                                        <i class="far fa-circle text-muted fs-5"></i>
+                                                        {% endif %}
+                                                    </button>
+                                                </form>
+                                            </td>
+                                            <td class="action-cell text-center">
+                                                <form action="{% url 'delete_todo_item' todo.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="delete-btn">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="empty-state">
+                                <i class="far fa-clipboard"></i>
+                                <h4>No tasks yet</h4>
+                                <p class="mb-0">Add a task above to get started!</p>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>
 </html>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
