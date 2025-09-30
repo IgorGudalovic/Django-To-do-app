@@ -17,17 +17,24 @@
                         <h1 class="display-5 text-info"><i class="fas fa-check-double"></i>Todos</h1>
                     </div>
                     <div class="card-body">
-                        <form action="{%url 'insert_todo_item' %}" method="post" autocomplete="off">
-                            {% csrf_token %}
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="content">
-                                <div class="input-group-append text-info">
-                                    <span class="input-group-text">
-                                        <button type="submit" class="btn btn-info">Add task</button>
-                                    </span>                                    
-                                </div>
-                            </div>                            
-                        </form>
+                        
+                        <ul class="list-group"></ul>
+                            <li class="list-group-item">
+                                <form action="{%url 'insert_todo_item' %}" method="post" autocomplete="off">
+                                    {% csrf_token %}
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="content">
+                                        <div class="input-group-append text-info">
+                                            <span class="input-group-text">
+                                                <button type="submit" class="btn btn-info">Add task</button>
+                                            </span>                                    
+                                        </div>
+                                    </div>                            
+                                </form>
+                            </li>
+                            {% for todo in todo_list %}
+                            <li class="list-group-item">{{todo.title}}</li>
+                            {% endfor %}
                     </div>
                 </div>
             </div>
